@@ -4,7 +4,7 @@ tier: capability          # primitive | capability | blueprint
 maturity: experimental    # experimental | stable | deprecated
 description: VPC network with subnets, flow logs, Cloud NAT, private service access and an optional Serverless VPC Access connector
 owners: [platform]
-upstream: null            # e.g. "terraform-aws-modules/s3-bucket/aws 5.17.0"
-pairs_with: null          # e.g. "terraform-google-gcs-bucket"
+upstream: "terraform-google-modules/network/google 18.3.1 + terraform-google-modules/cloud-nat/google 7.1.0"
+pairs_with: terraform-aws-vpc
 registry_name: terraform-google-network
 deprecated: null          # { removal: YYYY-MM-DD, replacement: <repo> }
