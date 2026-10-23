@@ -16,7 +16,7 @@ VPC network with subnets, flow logs, Cloud NAT, private service access and an op
 
 ## Requirements note
 
-The pinned upstream module requires `google-beta` (>= 6.19) and `random` (~> 3.0) alongside `google`, so this module declares them.
+The pinned upstream module requires `google` >= 6.28 (subnets submodule), `google-beta` >= 6.19 and `random` ~> 3.0, so this module declares those minimums instead of the library-wide floor.
 
 ## Usage
 
@@ -44,7 +44,7 @@ module "this" {
 | Name | Version |
 | ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5.0 |
-| <a name="requirement_google"></a> [google](#requirement\_google) | >= 6.0, < 8.0 |
+| <a name="requirement_google"></a> [google](#requirement\_google) | >= 6.28, < 8.0 |
 | <a name="requirement_google-beta"></a> [google-beta](#requirement\_google-beta) | >= 6.19, < 8.0 |
 | <a name="requirement_random"></a> [random](#requirement\_random) | ~> 3.0 |
 
@@ -52,7 +52,7 @@ module "this" {
 
 | Name | Version |
 | ---- | ------- |
-| <a name="provider_google"></a> [google](#provider\_google) | >= 6.0, < 8.0 |
+| <a name="provider_google"></a> [google](#provider\_google) | >= 6.28, < 8.0 |
 
 ## Modules
 
