@@ -6,6 +6,7 @@
 
 - normalise `context.extra_tags` keys and values to valid GCP label syntax (lowercase, `[^a-z0-9_-]` replaced by `-`, 63 characters); `labels` are applied verbatim and win
 - bound `random` to `>= 3.5, < 4.0`
+
 ### Tests
 
 - `test_tags_contract` now covers mixed-case extra tags and verifies normalisation
