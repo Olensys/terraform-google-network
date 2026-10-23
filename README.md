@@ -1,6 +1,6 @@
-# __NAME__
+# terraform-google-network
 
-__DESCRIPTION__
+VPC network with subnets, flow logs, Cloud NAT, private service access and an optional Serverless VPC Access connector
 
 ## Opinions
 
@@ -10,7 +10,7 @@ __DESCRIPTION__
 
 ```hcl
 module "this" {
-  source = "git::https://github.com/Olensys/__NAME__.git?ref=v1.0.0"
+  source = "git::https://github.com/Olensys/terraform-google-network.git?ref=v1.0.0"
 
   name = "example"
   context = {
