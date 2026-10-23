@@ -14,6 +14,10 @@ VPC network with subnets, flow logs, Cloud NAT, private service access and an op
 - VPC connector throughput must be 200 to 1000 in steps of 100.
 - `labels` are applied to the reserved addresses only: the network, subnets, router and connector do not accept labels. Labels must already be valid GCP labels; they are not transformed.
 
+## Requirements note
+
+The pinned upstream module requires `google-beta` (>= 6.19) and `random` (~> 3.0) alongside `google`, so this module declares them.
+
 ## Usage
 
 ```hcl
@@ -41,6 +45,8 @@ module "this" {
 | ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5.0 |
 | <a name="requirement_google"></a> [google](#requirement\_google) | >= 6.0, < 8.0 |
+| <a name="requirement_google-beta"></a> [google-beta](#requirement\_google-beta) | >= 6.19, < 8.0 |
+| <a name="requirement_random"></a> [random](#requirement\_random) | ~> 3.0 |
 
 ## Providers
 

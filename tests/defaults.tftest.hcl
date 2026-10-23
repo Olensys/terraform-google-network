@@ -1,3 +1,7 @@
+mock_provider "google-beta" {}
+
+mock_provider "random" {}
+
 mock_provider "google" {}
 
 variables {
