@@ -1,9 +1,9 @@
 variable "name" {
-  description = "Resource name. Lowercase letters, digits and hyphens."
+  description = "Network name. Lowercase letters, digits and hyphens; starts with a letter, does not end with a hyphen, at most 56 characters so derived names such as <name>-router fit the 63 character limit."
   type        = string
   validation {
-    condition     = can(regex("^[a-z0-9-]{1,63}$", var.name))
-    error_message = "name must match ^[a-z0-9-]{1,63}$."
+    condition     = can(regex("^[a-z]([a-z0-9-]{0,54}[a-z0-9])?$", var.name))
+    error_message = "name must start with a letter, not end with a hyphen, and match ^[a-z]([a-z0-9-]{0,54}[a-z0-9])?$ (at most 56 characters)."
   }
 }
 
@@ -91,6 +91,12 @@ variable "vpc_connector" {
   validation {
     condition     = var.vpc_connector == null || try(var.vpc_connector.min_throughput < var.vpc_connector.max_throughput, false)
     error_message = "vpc_connector.min_throughput must be lower than max_throughput."
+  }
+  validation {
+    condition = var.vpc_connector == null || alltrue([
+      for t in [try(var.vpc_connector.min_throughput, 200), try(var.vpc_connector.max_throughput, 300)] : t >= 200 && t <= 1000 && t % 100 == 0
+    ])
+    error_message = "vpc_connector min_throughput and max_throughput must each be between 200 and 1000 and a multiple of 100."
   }
 }
 

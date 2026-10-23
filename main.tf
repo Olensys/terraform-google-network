@@ -100,6 +100,7 @@ resource "google_service_networking_connection" "psa" {
   count = var.create && var.private_service_access_cidr != null ? 1 : 0
 
   network                 = module.this[0].network_self_link
+  deletion_policy         = "ABANDON"
   service                 = "servicenetworking.googleapis.com"
   reserved_peering_ranges = [google_compute_global_address.psa[0].name]
 }

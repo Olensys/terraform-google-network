@@ -9,6 +9,9 @@ VPC network with subnets, flow logs, Cloud NAT, private service access and an op
 - Cloud NAT on by default, with a reserved external address and `ERRORS_ONLY` logging; the Cloud Router is named `<name>-router`.
 - No default-allow firewall rule is created.
 - Private service access (`<name>-psa` range plus the service networking connection) and the Serverless VPC Access connector are off until their inputs are set. Connector names are truncated to fit the 25 character limit.
+- `name` starts with a letter, does not end with a hyphen and is at most 56 characters so derived names (`<name>-router`, `<name>-psa`) fit the 63 character limit.
+- The service networking connection uses `deletion_policy = "ABANDON"`: destroying this module leaves the peering in place so Cloud SQL and Memorystore instances keep using the range.
+- VPC connector throughput must be 200 to 1000 in steps of 100.
 - `labels` are applied to the reserved addresses only: the network, subnets, router and connector do not accept labels. Labels must already be valid GCP labels; they are not transformed.
 
 ## Usage
@@ -66,7 +69,7 @@ module "this" {
 | Name | Description | Type | Default | Required |
 | ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_context"></a> [context](#input\_context) | Deployment context used for naming, tagging and environment-dependent defaults. | <pre>object({<br/>    organization = string<br/>    environment  = string<br/>    application  = string<br/>    component    = optional(string)<br/>    owner        = string<br/>    cost_center  = string<br/>    extra_tags   = optional(map(string), {})<br/>  })</pre> | n/a | yes |
-| <a name="input_name"></a> [name](#input\_name) | Resource name. Lowercase letters, digits and hyphens. | `string` | n/a | yes |
+| <a name="input_name"></a> [name](#input\_name) | Network name. Lowercase letters, digits and hyphens; starts with a letter, does not end with a hyphen, at most 56 characters so derived names such as <name>-router fit the 63 character limit. | `string` | n/a | yes |
 | <a name="input_project_id"></a> [project\_id](#input\_project\_id) | ID of the GCP project that owns the network. | `string` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | Region for every subnet, the Cloud Router and the VPC connector. | `string` | n/a | yes |
 | <a name="input_create"></a> [create](#input\_create) | Whether to create any resources. Set false to create nothing. | `bool` | `true` | no |
@@ -87,6 +90,7 @@ module "this" {
 | <a name="output_nat_enabled"></a> [nat\_enabled](#output\_nat\_enabled) | Whether Cloud NAT is created. Null when create is false. |
 | <a name="output_nat_ips"></a> [nat\_ips](#output\_nat\_ips) | External addresses used by Cloud NAT. Empty when NAT is disabled; null when create is false. |
 | <a name="output_private_service_access_range"></a> [private\_service\_access\_range](#output\_private\_service\_access\_range) | Name of the reserved private service access range. Null when private service access is not configured or create is false. |
+| <a name="output_secondary_ranges"></a> [secondary\_ranges](#output\_secondary\_ranges) | Secondary ranges passed to the upstream network module, keyed by subnet. Null when create is false. |
 | <a name="output_self_link"></a> [self\_link](#output\_self\_link) | Self link of the VPC network. Null when create is false. |
 | <a name="output_subnet_config"></a> [subnet\_config](#output\_subnet\_config) | Subnet list passed to the upstream network module. |
 | <a name="output_subnet_ids"></a> [subnet\_ids](#output\_subnet\_ids) | Map of subnet key to subnet ID. Null when create is false. |

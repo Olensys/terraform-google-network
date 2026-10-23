@@ -53,6 +53,11 @@ output "subnet_config" {
   value       = var.create ? local.subnet_config : null
 }
 
+output "secondary_ranges" {
+  description = "Secondary ranges passed to the upstream network module, keyed by subnet. Null when create is false."
+  value       = var.create ? local.secondary_ranges : null
+}
+
 output "labels" {
   description = "Labels applied to every labelable resource, with context.extra_tags merged in. Null when create is false."
   value       = var.create ? local.labels : null

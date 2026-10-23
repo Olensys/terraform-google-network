@@ -27,8 +27,44 @@ run "test_nat_default_on" {
   command = plan
 
   assert {
-    condition     = output.nat_enabled == true
-    error_message = "NAT must default to enabled."
+    condition     = output.nat_enabled == true && length(google_compute_address.nat) == 1
+    error_message = "NAT must default to enabled and reserve one address."
+  }
+}
+
+run "test_nat_disabled" {
+  command = plan
+
+  variables {
+    enable_nat = false
+  }
+
+  assert {
+    condition     = length(google_compute_address.nat) == 0 && output.nat_ips == []
+    error_message = "No NAT address and no nat_ips when NAT is disabled."
+  }
+}
+
+run "test_secondary_ranges_mapped" {
+  command = plan
+
+  assert {
+    condition     = length(output.secondary_ranges["app"]) == 2 && !contains(keys(output.secondary_ranges), "proxy")
+    error_message = "Secondary ranges are mapped per subnet, only for subnets that define them."
+  }
+
+  assert {
+    condition     = [for r in output.secondary_ranges["app"] : r if r.range_name == "pods"][0].ip_cidr_range == "10.20.0.0/16"
+    error_message = "Range name and CIDR must be passed through."
+  }
+}
+
+run "test_subnet_outputs_keyed_by_input" {
+  command = plan
+
+  assert {
+    condition     = toset(keys(output.subnet_names)) == toset(["app", "proxy"]) && toset(keys(output.subnet_self_links)) == toset(["app", "proxy"]) && toset(keys(output.subnet_ids)) == toset(["app", "proxy"])
+    error_message = "Subnet output maps must be keyed by the input subnet key."
   }
 }
 
@@ -102,6 +138,26 @@ run "test_vpc_connector_created" {
     condition     = google_vpc_access_connector.this[0].min_throughput == 200 && google_vpc_access_connector.this[0].max_throughput == 300
     error_message = "Connector throughput defaults must be 200/300."
   }
+}
+
+run "test_vpc_connector_throughput_validation" {
+  command = plan
+
+  variables {
+    vpc_connector = { cidr = "10.50.0.0/28", min_throughput = 250 }
+  }
+
+  expect_failures = [var.vpc_connector]
+}
+
+run "test_name_must_start_with_letter" {
+  command = plan
+
+  variables {
+    name = "1bad"
+  }
+
+  expect_failures = [var.name]
 }
 
 run "test_create_false_plans_nothing" {
