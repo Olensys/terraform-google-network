@@ -13,28 +13,29 @@ VPC network with subnets, flow logs, Cloud NAT, private service access and an op
 - The service networking connection uses `deletion_policy = "ABANDON"`: destroying this module leaves the peering in place so Cloud SQL and Memorystore instances keep using the range.
 - VPC connector throughput must be 200 to 1000 in steps of 100.
 - `labels` are applied to the reserved addresses only: the network, subnets, router and connector do not accept labels. Labels must already be valid GCP labels; they are not transformed.
+- `context.extra_tags` keys and values are normalised to valid GCP label syntax (lowercase, `[^a-z0-9_-]` → `-`, 63 chars); `labels` are applied verbatim and win.
 
 ## Requirements note
 
-The pinned upstream module requires `google` >= 6.28 (subnets submodule), `google-beta` >= 6.19 and `random` ~> 3.0, so this module declares those minimums instead of the library-wide floor.
+The pinned upstream module requires `google` >= 6.28 (subnets submodule), `google-beta` >= 6.19 and `random` >= 3.5, < 4.0, so this module declares those minimums instead of the library-wide floor.
 
 ## Usage
 
 ```hcl
-module "this" {
-  source = "git::https://github.com/Olensys/terraform-google-network.git?ref=v1.0.0"
+module "naming" {
+  source  = "git::https://github.com/Olensys/terraform-null-naming.git?ref=v1.0.1"
+  context = var.context
+}
 
-  name       = "example"
+module "this" {
+  source = "git::https://github.com/Olensys/terraform-google-network.git?ref=v1.1.0"
+
+  name       = module.naming.name
   project_id = "my-project"
   region     = "us-central1"
   subnets    = { app = { cidr = "10.10.0.0/20" } }
-  context = {
-    organization = "olensys"
-    environment  = "dev"
-    application  = "example"
-    owner        = "platform"
-    cost_center  = "eng"
-  }
+  context = var.context
+  labels  = module.naming.labels
 }
 ```
 
@@ -46,7 +47,7 @@ module "this" {
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5.0 |
 | <a name="requirement_google"></a> [google](#requirement\_google) | >= 6.28, < 8.0 |
 | <a name="requirement_google-beta"></a> [google-beta](#requirement\_google-beta) | >= 6.19, < 8.0 |
-| <a name="requirement_random"></a> [random](#requirement\_random) | ~> 3.0 |
+| <a name="requirement_random"></a> [random](#requirement\_random) | >= 3.5, < 4.0 |
 
 ## Providers
 
