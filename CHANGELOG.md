@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.2](https://github.com/Olensys/terraform-google-network/compare/v1.1.1...v1.1.2) (2026-10-24)
+
+
+### Bug Fixes
+
+* **examples:** unique application slug so concurrent integration runs do not collide ([#3](https://github.com/Olensys/terraform-google-network/issues/3)) ([9d07dee](https://github.com/Olensys/terraform-google-network/commit/9d07dee62feddbcd55b341f6bc2af258e1a92c7b))
+
 ## [1.1.1](https://github.com/Olensys/terraform-google-network/compare/v1.1.0...v1.1.1) (2026-10-24)
 
 
