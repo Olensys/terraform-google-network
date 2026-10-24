@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.1](https://github.com/Olensys/terraform-google-network/compare/v1.1.0...v1.1.1) (2026-10-24)
+
+
+### Bug Fixes
+
+* **examples:** pin naming module to v1.0.1 ([0ce8fe2](https://github.com/Olensys/terraform-google-network/commit/0ce8fe238065a193658a693cc9a8fedad2cadb1b))
+* run integration on change and weekly instead of nightly ([5315917](https://github.com/Olensys/terraform-google-network/commit/53159172508ac719c9e79a6013e5db45bc86bc6d))
+
 ## 1.1.0
 
 ### Fixes
