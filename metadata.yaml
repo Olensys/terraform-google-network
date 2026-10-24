@@ -1,7 +1,7 @@
 name: terraform-google-network
 cloud: google          # aws | google | common
 tier: capability          # primitive | capability | blueprint
-maturity: experimental    # experimental | stable | deprecated
+maturity: stable    # experimental | stable | deprecated
 description: VPC network with subnets, flow logs, Cloud NAT, private service access and an optional Serverless VPC Access connector
 owners: [platform]
 upstream: "terraform-google-modules/network/google 18.3.1 + terraform-google-modules/cloud-nat/google 7.1.0"
