@@ -39,11 +39,11 @@ module "this" {
   labels     = module.naming.labels
 
   subnets = {
-    app = {
+    net-app = {
       cidr             = "10.10.0.0/20"
       secondary_ranges = { pods = "10.20.0.0/16", services = "10.30.0.0/20" }
     }
-    proxy = {
+    net-proxy = {
       cidr    = "10.10.16.0/23"
       purpose = "REGIONAL_MANAGED_PROXY"
     }

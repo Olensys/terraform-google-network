@@ -42,7 +42,7 @@ variable "region" {
 }
 
 variable "subnets" {
-  description = "Subnets keyed by name. secondary_ranges maps range name to CIDR. purpose is null, REGIONAL_MANAGED_PROXY or PRIVATE_SERVICE_CONNECT; flow logs are enabled on every subnet that supports them."
+  description = "Subnets keyed by name. secondary_ranges maps range name to CIDR. purpose is null, REGIONAL_MANAGED_PROXY or PRIVATE_SERVICE_CONNECT; flow logs are enabled on every subnet that supports them. Subnet names are unique per project and region across all networks; pick keys that will not collide with other networks in the project."
   type = map(object({
     cidr                  = string
     secondary_ranges      = optional(map(string), {})
