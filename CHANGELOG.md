@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.3](https://github.com/Olensys/terraform-google-network/compare/v1.1.2...v1.1.3) (2026-10-24)
+
+
+### Bug Fixes
+
+* **examples:** unique subnet keys; document subnet-name uniqueness ([#5](https://github.com/Olensys/terraform-google-network/issues/5)) ([4065b8e](https://github.com/Olensys/terraform-google-network/commit/4065b8ef96b8daa67f2a592068066aff6146f883))
+
 ## [1.1.2](https://github.com/Olensys/terraform-google-network/compare/v1.1.1...v1.1.2) (2026-10-24)
 
 
